@@ -3,10 +3,9 @@
 
 namespace App\Responses\Post;
 
-
 use App\Entity\Post;
 
-class PostsWithRelatedUsersResponse
+class PostWithRelatedUserResponse
 {
     /**
      * Handle request.
