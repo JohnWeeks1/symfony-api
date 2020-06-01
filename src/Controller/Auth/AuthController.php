@@ -6,13 +6,12 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class RegistrationController extends AbstractController
+class AuthController extends AbstractController
 {
     /**
      * User repository.
@@ -43,7 +42,7 @@ class RegistrationController extends AbstractController
     protected $validator;
 
     /**
-     * RegistrationController constructor.
+     * AuthController constructor.
      *
      * @param UserRepository $userRepository
      * @param UserPasswordEncoderInterface $passwordEncoder
@@ -66,12 +65,11 @@ class RegistrationController extends AbstractController
     /**
      * Register user.
      *
-     * @Route("/api/register", name="api_register", methods={"POST"})
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function index(Request $request)
+    public function register(Request $request)
     {
         try {
             $user = new User();
