@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
+use App\Responses\Post\PostResponse;
+use App\Responses\User\UserResponse;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Responses\Comment\CommentResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Responses\Post\PostWithRelatedUserResponse;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -42,6 +45,27 @@ class PostController extends AbstractController
      */
     protected $postWithRelatedUserResponse;
 
+    /**
+     * Posts with related users response.
+     *
+     * @var CommentResponse
+     */
+    protected $commentResponse;
+
+    /**
+     * Posts response.
+     *
+     * @var PostResponse
+     */
+    protected $postResponse;
+
+    /**
+     * Posts response.
+     *
+     * @var UserResponse
+     */
+    protected $userResponse;
+
 
     /**
      * PostController constructor.
@@ -49,18 +73,27 @@ class PostController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @param PostRepository $postRepository
      * @param UserRepository $userRepository
+     * @param CommentResponse $commentResponse
+     * @param PostResponse $postResponse
+     * @param UserResponse $userResponse
      * @param PostWithRelatedUserResponse $postWithRelatedUserResponse
      */
     public function __construct(
         EntityManagerInterface $entityManager,
         PostRepository $postRepository,
         UserRepository $userRepository,
+        CommentResponse $commentResponse,
+        PostResponse $postResponse,
+        UserResponse $userResponse,
         PostWithRelatedUserResponse $postWithRelatedUserResponse
     )
     {
         $this->entityManager = $entityManager;
         $this->postRepository = $postRepository;
         $this->userRepository = $userRepository;
+        $this->commentResponse = $commentResponse;
+        $this->postResponse = $postResponse;
+        $this->userResponse = $userResponse;
         $this->postWithRelatedUserResponse = $postWithRelatedUserResponse;
     }
 
@@ -90,14 +123,23 @@ class PostController extends AbstractController
      */
     public function getPostAction(int $id)
     {
-        $posts = $this->postRepository->findAll();
+        $post = $this->postRepository->find($id);
 
-        $postsWithRelatedUser = ['posts' => []];
-        foreach ($posts as $post) {
-            $postsWithRelatedUser['posts'][] = $this->postWithRelatedUserResponse->handle($post);
+        $postWithComments = $this->serializedPostWithUserAndComments($post);
+
+        return $this->json($postWithComments, 200);
+    }
+
+    private function serializedPostWithUserAndComments(Post $post)
+    {
+        $postWithComments = ['post' => []];
+        $postWithComments['post'] = $this->postResponse->handle($post);
+        $postWithComments['post']['user'] = $this->userResponse->handle($post->getUser());
+        foreach ($post->getComments() as $comment) {
+            $postWithComments['post']['comments'][] = $this->commentResponse->handle($comment);
         }
 
-        return $this->json($postsWithRelatedUser, 200);
+        return $postWithComments;
     }
 
     /**
@@ -110,7 +152,9 @@ class PostController extends AbstractController
     public function postPostAction(Request $request)
     {
         try {
-            $user = $this->userRepository->find(1);
+            $user = $this->userRepository->find(
+                $request->get('user_id')
+            );
 
             $post = new Post;
             $post->setUser($user);

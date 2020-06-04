@@ -2,11 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1753c87-539e-4d53-92d8-a2147b5406af" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Responses/Comment/CommentResponse.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Responses/Post/PostResponse.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Responses/User/UserResponse.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Auth/RegistrationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Auth/AuthController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PostController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Post.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Responses/Post/PostWithRelatedUserResponse.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Responses/Post/PostWithRelatedUserResponse.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +122,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Responses" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -128,6 +131,10 @@
       <recent name="$PROJECT_DIR$/src/Controller/Api" />
       <recent name="$PROJECT_DIR$/src/Entity" />
       <recent name="$PROJECT_DIR$/src/Migrations" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Responses" />
+      <recent name="$PROJECT_DIR$/src/Responses/Post" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -147,7 +154,10 @@
       <workItem from="1590851071994" duration="109000" />
       <workItem from="1590851682636" duration="18313000" />
       <workItem from="1590919834435" duration="20826000" />
-      <workItem from="1591013209339" duration="9944000" />
+      <workItem from="1591013209339" duration="10778000" />
+      <workItem from="1591121851431" duration="7205000" />
+      <workItem from="1591182940296" duration="3472000" />
+      <workItem from="1591295735923" duration="8273000" />
     </task>
     <servers />
   </component>
@@ -159,18 +169,18 @@
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
     <state x="214" y="351" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1920.1057@0.23.1920.1057" timestamp="1590875739186" />
-    <state x="709" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1591045944215">
+    <state x="709" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1591305780664">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state x="709" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1591045944215" />
+    <state x="709" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1591305780664" />
     <state x="698" y="305" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1590855534600">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
     <state x="698" y="305" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1590855534600" />
-    <state x="269" y="314" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1590932311311">
+    <state x="269" y="314" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1591224167358">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state x="269" y="314" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1590932311311" />
+    <state x="269" y="314" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1591224167358" />
     <state x="238" y="269" key="NewPhpClassDialog" timestamp="1590936000813">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
@@ -183,13 +193,13 @@
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
     <state x="135" y="139" width="744" height="857" key="dock-window-1/0.23.1920.1057@0.23.1920.1057" timestamp="1590942701402" />
-    <state x="172" y="290" width="612" height="522" key="find.popup" timestamp="1591049182975">
+    <state x="172" y="290" width="612" height="522" key="find.popup" timestamp="1591128709200">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state x="172" y="290" width="612" height="522" key="find.popup/0.23.1920.1057@0.23.1920.1057" timestamp="1591049182975" />
-    <state x="129" y="258" width="670" height="676" key="search.everywhere.popup" timestamp="1591037730523">
+    <state x="172" y="290" width="612" height="522" key="find.popup/0.23.1920.1057@0.23.1920.1057" timestamp="1591128709200" />
+    <state x="129" y="258" width="670" height="676" key="search.everywhere.popup" timestamp="1591125626868">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state x="129" y="258" width="670" height="676" key="search.everywhere.popup/0.23.1920.1057@0.23.1920.1057" timestamp="1591037730523" />
+    <state x="129" y="258" width="670" height="676" key="search.everywhere.popup/0.23.1920.1057@0.23.1920.1057" timestamp="1591125626868" />
   </component>
 </project>
