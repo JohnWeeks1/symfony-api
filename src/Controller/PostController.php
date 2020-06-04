@@ -125,21 +125,9 @@ class PostController extends AbstractController
     {
         $post = $this->postRepository->find($id);
 
-        $postWithComments = $this->serializedPostWithUserAndComments($post);
+        $postWithUserAndComments = $this->postRepository->serializedPostWithUserAndComments($post);
 
-        return $this->json($postWithComments, 200);
-    }
-
-    private function serializedPostWithUserAndComments(Post $post)
-    {
-        $postWithComments = ['post' => []];
-        $postWithComments['post'] = $this->postResponse->handle($post);
-        $postWithComments['post']['user'] = $this->userResponse->handle($post->getUser());
-        foreach ($post->getComments() as $comment) {
-            $postWithComments['post']['comments'][] = $this->commentResponse->handle($comment);
-        }
-
-        return $postWithComments;
+        return $this->json($postWithUserAndComments, 200);
     }
 
     /**

@@ -3,7 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Responses\Post\PostResponse;
+use App\Responses\User\UserResponse;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Responses\Comment\CommentResponse;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
@@ -14,9 +17,47 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 class PostRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * Posts with related users response.
+     *
+     * @var CommentResponse
+     */
+    protected $commentResponse;
+
+    /**
+     * Posts response.
+     *
+     * @var PostResponse
+     */
+    protected $postResponse;
+
+    /**
+     * Posts response.
+     *
+     * @var UserResponse
+     */
+    protected $userResponse;
+
+
+    /**
+     * PostRepository constructor.
+     *
+     * @param ManagerRegistry $registry
+     * @param CommentResponse $commentResponse
+     * @param PostResponse $postResponse
+     * @param UserResponse $userResponse
+     */
+    public function __construct(
+        ManagerRegistry $registry,
+        CommentResponse $commentResponse,
+        UserResponse $userResponse,
+        PostResponse $postResponse
+    )
     {
         parent::__construct($registry, Post::class);
+        $this->commentResponse = $commentResponse;
+        $this->postResponse = $postResponse;
+        $this->userResponse = $userResponse;
     }
 
     // /**
@@ -47,4 +88,20 @@ class PostRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @param Post $post
+     * @return array[]
+     */
+    public function serializedPostWithUserAndComments(Post $post)
+    {
+        $postWithUserAndComments = ['post' => []];
+        $postWithUserAndComments['post'] = $this->postResponse->handle($post);
+        $postWithUserAndComments['post']['user'] = $this->userResponse->handle($post->getUser());
+        foreach ($post->getComments() as $comment) {
+            $postWithUserAndComments['post']['comments'][] = $this->commentResponse->handle($comment);
+        }
+
+        return $postWithUserAndComments;
+    }
 }
